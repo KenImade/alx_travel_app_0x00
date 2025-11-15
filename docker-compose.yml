@@ -1,0 +1,25 @@
+services:
+  alx_travel_app_db:
+    image: mysql:8.0
+    platform: linux/amd64
+    container_name: alx_travel_app_db
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - travel-app-data:/var/lib/mysql
+    ports:
+      - 3308:3306
+    networks:
+      - travel_app_nw
+    healthcheck:
+      test: ["CMD", "alx_travel_app_db_admin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 5
+
+volumes:
+  travel-app-data:
+
+networks:
+  travel_app_nw:
+    driver: bridge
